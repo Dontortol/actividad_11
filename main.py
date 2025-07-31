@@ -1,9 +1,10 @@
 prop = {}
-cars = {}
+
 while True:
     print("Bienvenido al programa de registro\n"
           "1. Ingresar propietarios\n"
           "2. Ver resumen\n"
+          "3. Buscar por nit\n"
           "5. salir")
     select = input("Ingrese la opcion que desea: ")
     match select:
@@ -11,10 +12,11 @@ while True:
             amount = int(input("Ingrese la cantidad de registros: "))
             for i in range(amount):
                 print(f"registro {i+1}")
-                nit = input("Ingrese NIT: ")
+                nit = input("Ingrese NIT: ").upper()
                 name = input("Ingrese su nombre completo: ")
                 phone = int(input("Ingrese su numero telefonico: "))
                 car_amount = int(input("Ingrese la cantidad de carros que posee: "))
+                cars = {}
                 for car in range(car_amount):
                     print(f"Registro carro {car+1}")
                     placa = input("Ingrese la placa del vehiculo: ").upper()
@@ -22,6 +24,7 @@ while True:
                     modelo = input("Ingrese el modelo del vehiculo: ")
                     year = int(input("Ingrese el año del vehiculo: "))
                     state = input("Impuesto del vehiculo Si/No: ").lower()
+
                     cars[placa] = {
                         "branch": branch,
                         "modelo": modelo,
@@ -32,22 +35,26 @@ while True:
                 prop[nit] = {
                     "name": name,
                     "phone": phone,
-                    "car_amount": car_amount,
+                    "car_amount": cars,
                 }
 
-        case "2":
-            print("----Resumen General----")
-            for nit, value in prop.items():
-                print(f"registro {nit}\n"
-                      f"Nombre: {value['name']}\n"
-                      f"telefono: {value['phone']}\n"
-                      f"cantidad de vehiculos: {value['car_amount']}\n")
-                for placa, key in cars.items():
-                    print("Carro individual")
-                    print(f"Placa: {placa}\n"
-                          f"Marca: {key['branch']}\n"
-                          f"Modelo: {key['modelo']}\n"
-                          f"Year: {key['year']}\n"
-                          f"Estado de impuesto: {key['state']}\n")
 
+        case "2":
+            if not prop:
+                print("Aun no hay propietarios")
+            else:
+                print("----Resumen General----")
+                for nit, value in prop.items():
+                    print(f"registro {nit}\n"
+                          f"Nombre: {value['name']}\n"
+                          f"telefono: {value['phone']}\n"
+                          f"cantidad de vehiculos: {value['car_amount']}\n")
+                    for placa, a in value["car_amount"].items():
+                        print(f"Placa: {placa}\n"
+                              f"Marca: {a['branch']}\n"
+                              f"Modelo: {a['modelo']}\n"
+                              f"Year: {a['year']}\n"
+                              f"state: {a['state']}\n")
+        case "3":
+            pass
 
