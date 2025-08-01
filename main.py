@@ -5,7 +5,7 @@ while True:
           "1. Ingresar propietarios\n"
           "2. Ver resumen\n"
           "3. Buscar por nit\n"
-          "5. salir")
+          "4. salir")
     select = input("Ingrese la opcion que desea: ")
     match select:
         case "1":
@@ -13,7 +13,7 @@ while True:
             for i in range(amount):
                 print(f"registro {i+1}")
                 nit = input("Ingrese NIT: ").upper()
-                name = input("Ingrese su nombre completo: ")
+                name = input("Ingrese su nombre completo: ").capitalize()
                 phone = int(input("Ingrese su numero telefonico: "))
                 car_amount = int(input("Ingrese la cantidad de carros que posee: "))
                 cars = {}
@@ -44,6 +44,7 @@ while True:
                 print("Aun no hay propietarios")
             else:
                 print("----Resumen General----")
+                brum = 0
                 for nit, value in prop.items():
                     print(f"registro {nit}\n"
                           f"Nombre: {value['name']}\n"
@@ -56,5 +57,27 @@ while True:
                               f"Year: {a['year']}\n"
                               f"state: {a['state']}\n")
         case "3":
-            pass
+            if not prop:
+                print("Aun no hay propietarios")
+            else:
+                search = input("Ingrese su NIT: ")
+                if search in prop:
+                    si = 0
+                    no = 0
+                    for nit, value in prop.items():
+                        for placa, a in value["car_amount"].items():
+                            if a["state"] == "si":
+                                si += 1
+                            else:
+                                no += 1
+
+                    print(f"Impuestos pagados por carro: {si}\n"
+                        f"Impuestos sin pagar: {no}\n")
+                else:
+                    print("No existe registros con ese NIT")
+
+        case "4":
+            print("Saliendo del programa")
+            break
+
 
